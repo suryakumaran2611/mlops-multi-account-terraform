@@ -34,7 +34,7 @@ jobs:
 
       - name: Generate architecture diagram
         id: diagram
-        uses: suryakumaran2611/auto-arch-diagram@v1
+        uses: suryakumaran2611/auto-arch-diagram@v2
         with:
           iac_root: base-infrastructure/terraform
           direction: LR
