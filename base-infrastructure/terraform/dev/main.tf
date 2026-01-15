@@ -1,5 +1,6 @@
 # S3
 # Creates SageMaker bucket with versioning enabled
+# Test commit for workflow trigger - auto-architecture-diagram
 module "sagemaker_bucket" {
   source                  = "../modules/s3"
   s3_bucket_name          = "sagemaker-${local.aws_region}-${local.account_id}"
