@@ -8,6 +8,19 @@ As enterprise businesses embrace Machine Learning (ML) across their organisation
 
 In this repository, we show how to use **Terraform** with **GitHub and GitHub Actions** to build a baseline infrastructure for secure MLOps. The solution can be broken down into three parts:
 
+### Auto-Generated Architecture Diagrams
+
+Architecture diagrams are **automatically generated** from the Terraform code on every pull request that modifies infrastructure. These diagrams provide a visual representation of your infrastructure and are stored in the [`architecture/`](./architecture/) directory.
+
+- **PR Comments**: Diagrams appear as Mermaid diagrams in PR comments
+- **SVG Exports**: High-quality vector diagrams with professional cloud icons
+- **Multiple Formats**: PNG, SVG, JPG, and Mermaid formats available
+- **Auto-Updates**: Diagrams update automatically when Terraform changes
+
+See [`architecture/README.md`](./architecture/README.md) for more details on generated diagrams.
+
+---
+
 **Base Infrastructure**
 
 The necessary infrastructure components for your accounts including SageMaker Studio, Networking, Permissions and SSM Parameters.
