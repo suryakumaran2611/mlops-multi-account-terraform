@@ -8,6 +8,12 @@ on:
       - '**/*.tfvars'
       - '**/*.hcl'
       - '.github/workflows/auto-architecture-diagram.yml'
+  workflow_dispatch:
+    inputs:
+      force_full:
+        description: "Force full architecture render (ignore change filtering)"
+        required: false
+        default: "true"
 
 permissions:
   contents: read
@@ -30,7 +36,6 @@ jobs:
         id: diagram
         uses: suryakumaran2611/auto-arch-diagram@v1
         with:
-          changed_files: ${{ github.event.pull_request.changed_files }}
           iac_root: base-infrastructure/terraform
           direction: LR
           image_formats: png,svg,jpg

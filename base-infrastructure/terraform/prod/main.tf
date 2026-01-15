@@ -19,3 +19,10 @@ module "networking" {
   source = "../modules/networking"
   region = var.region
 }
+
+# Dummy component to trigger auto-architecture-diagram workflow
+resource "null_resource" "diagram_trigger" {
+  triggers = {
+    tag = "auto-arch-diagram-prod"
+  }
+}

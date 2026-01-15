@@ -41,6 +41,13 @@ module "networking" {
   region = var.region
 }
 
+# Dummy component to trigger auto-architecture-diagram workflow
+resource "null_resource" "diagram_trigger" {
+  triggers = {
+    tag = "auto-arch-diagram-dev"
+  }
+}
+
 # SageMaker roles
 module "sagemaker_roles" {
   source           = "../modules/sagemaker_roles"
