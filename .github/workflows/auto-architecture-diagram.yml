@@ -4,9 +4,9 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
-      - '**/*.tf'
-      - '**/*.tfvars'
-      - '**/*.hcl'
+      - 'base-infrastructure/terraform/**/*.tf'
+      - 'base-infrastructure/terraform/**/*.tfvars'
+      - 'base-infrastructure/terraform/**/*.hcl'
       - '.github/workflows/auto-architecture-diagram.yml'
   workflow_dispatch:
     inputs:
@@ -15,203 +15,21 @@ on:
         required: false
         default: "true"
 
-permissions:
-  contents: read
-  pull-requests: write
-
 jobs:
   generate-diagrams:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      pull-requests: write
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Generate architecture diagram
-        id: diagram
-        uses: suryakumaran2611/auto-arch-diagram@v2
-        with:
-          iac_root: base-infrastructure/terraform
-          direction: LR
-          image_formats: png,svg,jpg
-          out_dir: diagrams
-          out_md: diagrams/architecture-diagram.md
-          out_mmd: diagrams/architecture-diagram.mmd
-          out_png: diagrams/architecture-diagram.png
-          out_jpg: diagrams/architecture-diagram.jpg
-          out_svg: diagrams/architecture-diagram.svg
-
-      - name: Comment on PR with diagram
-        if: always()
-        uses: actions/github-script@v7
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const fs = require('fs');
-            
-            // Check if diagram was generated
-            const diagramMdPath = 'diagrams/architecture-diagram.md';
-            if (!fs.existsSync(diagramMdPath)) {
-              console.log('No diagram generated');
-              return;
-            }
-            
-            const diagramContent = fs.readFileSync(diagramMdPath, 'utf8');
-            
-            // Find existing comment
-            const { data: comments } = await github.rest.issues.listComments({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: context.issue.number,
-            });
-            
-            const existingComment = comments.find(comment =>
-              comment.user.type === 'Bot' &&
-              comment.body.includes('auto-arch-diagram')
-            );
-            
-            const parts = [
-              '<!-- auto-arch-diagram -->',
-              '',
-              '## 🏗️ Architecture Diagram (Auto-Generated)',
-              '',
-              diagramContent,
-              '',
-              '**Diagram generated from Terraform code changes.**',
-              'Download PNG/SVG from [workflow artifacts](' + context.payload.pull_request.html_url + '/checks) if needed.'
-            ];
-            const commentBody = parts.join('\n');
-            
-            if (existingComment) {
-              await github.rest.issues.updateComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                comment_id: existingComment.id,
-                body: commentBody,
-              });
-            } else {
-              await github.rest.issues.createComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                issue_number: context.issue.number,
-                body: commentBody,
-              });
-            }
-
-      - name: Upload diagram artifacts
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: architecture-diagrams
-          path: diagrams/
-          retention-days: 30
-
-  create-diagram-pr:
-    runs-on: ubuntu-latest
-    needs: generate-diagrams
-    if: github.event.pull_request.head.repo.full_name == github.repository
-    permissions:
-      contents: write
-      pull-requests: write
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Download diagrams
-        uses: actions/download-artifact@v4
-        with:
-          name: architecture-diagrams
-          path: diagrams/
-
-      - name: Check if diagrams changed
-        id: check
-        run: |
-          if [ -d "architecture" ]; then
-            if ! diff -r diagrams/ architecture/ > /dev/null 2>&1; then
-              echo "changed=true" >> $GITHUB_OUTPUT
-            else
-              echo "changed=false" >> $GITHUB_OUTPUT
-            fi
-          else
-            echo "changed=true" >> $GITHUB_OUTPUT
-          fi
-
-      - name: Copy diagrams to architecture folder
-        if: steps.check.outputs.changed == 'true'
-        run: |
-          mkdir -p architecture
-          cp diagrams/* architecture/ 2>/dev/null || true
-          ls -la architecture/
-
-      - name: Configure git
-        if: steps.check.outputs.changed == 'true'
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-
-      - name: Create commit and push
-        if: steps.check.outputs.changed == 'true'
-        run: |
-          git add architecture/
-          git commit -m "docs: update architecture diagrams from PR #${{ github.event.pull_request.number }}" || exit 0
-          git push origin ${{ github.head_ref }}
-
-      - name: Comment with diagram location
-        if: steps.check.outputs.changed == 'true'
-        uses: actions/github-script@v7
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const { data: comments } = await github.rest.issues.listComments({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: context.issue.number,
-            });
-            
-            const updateComment = comments.find(comment =>
-              comment.user.type === 'Bot' &&
-              comment.body.includes('Architecture diagrams updated')
-            );
-            
-            const files = [
-              '- `architecture/architecture-diagram.md` - Mermaid diagram in markdown',
-              '- `architecture/architecture-diagram.mmd` - Raw Mermaid syntax',
-              '- `architecture/architecture-diagram.png` - PNG image',
-              '- `architecture/architecture-diagram.svg` - SVG vector (embedded icons)',
-              '- `architecture/architecture-diagram.jpg` - JPG image'
-            ];
-            
-            const parts = [
-              '📐 Architecture diagrams updated and committed to `architecture/` folder! ✨',
-              '',
-              '### Generated Files:',
-              files.join('\n'),
-              '',
-              'These changes will be automatically included in your PR.'
-            ];
-            const commentBody = parts.join('\n');
-            
-            if (updateComment) {
-              await github.rest.issues.updateComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                comment_id: updateComment.id,
-                body: commentBody,
-              });
-            } else {
-              await github.rest.issues.createComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                issue_number: context.issue.number,
-                body: commentBody,
-              });
-            }
+    uses: suryakumaran2611/auto-arch-diagram/.github/workflows/reusable-auto-arch-diagram.yml@main
+    with:
+      iac_globs: |
+        base-infrastructure/terraform/**/*.tf
+        base-infrastructure/terraform/**/*.tfvars
+        base-infrastructure/terraform/**/*.hcl
+      direction: LR
+      image_formats: png,jpg,svg
+      out_dir: diagrams
+      out_md: diagrams/architecture-diagram.md
+      out_mmd: diagrams/architecture-diagram.mmd
+      out_png: diagrams/architecture-diagram.png
+      out_jpg: diagrams/architecture-diagram.jpg
+      out_svg: diagrams/architecture-diagram.svg
+      comment_on_pr: true
+      force_full: true
