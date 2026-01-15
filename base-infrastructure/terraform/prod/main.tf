@@ -1,4 +1,5 @@
 # Test commit for workflow trigger - auto-architecture-diagram
+# trigger: update for auto-arch workflow push event
 module "sagemaker_projects_bucket" {
   source                  = "../modules/s3"
   s3_bucket_name          = "ml-artifacts-${local.aws_region}-${local.account_id}"

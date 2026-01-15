@@ -1,6 +1,12 @@
 name: Auto Architecture Diagram
 
 on:
+  push:
+    paths:
+      - 'base-infrastructure/terraform/**/*.tf'
+      - 'base-infrastructure/terraform/**/*.tfvars'
+      - 'base-infrastructure/terraform/**/*.hcl'
+      - '.github/workflows/auto-architecture-diagram.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
@@ -23,7 +29,7 @@ jobs:
         base-infrastructure/terraform/**/*.tf
         base-infrastructure/terraform/**/*.tfvars
         base-infrastructure/terraform/**/*.hcl
-      direction: LR
+      direction: AUTO
       image_formats: png,jpg,svg
       out_dir: diagrams
       out_md: diagrams/architecture-diagram.md
