@@ -67,18 +67,20 @@ jobs:
             
             const existingComment = comments.find(comment =>
               comment.user.type === 'Bot' &&
-              comment.body.includes('<!-- auto-arch-diagram -->')
+              comment.body.includes('auto-arch-diagram')
             );
             
-            const commentBody = `<!-- auto-arch-diagram -->
-
-## 🏗️ Architecture Diagram (Auto-Generated)
-
-${diagramContent}
-
-**Diagram generated from Terraform code changes.**
-Download PNG/SVG from [workflow artifacts](${context.payload.pull_request.html_url}/checks) if needed.
-`;
+            const parts = [
+              '<!-- auto-arch-diagram -->',
+              '',
+              '## 🏗️ Architecture Diagram (Auto-Generated)',
+              '',
+              diagramContent,
+              '',
+              '**Diagram generated from Terraform code changes.**',
+              'Download PNG/SVG from [workflow artifacts](' + context.payload.pull_request.html_url + '/checks) if needed.'
+            ];
+            const commentBody = parts.join('\n');
             
             if (existingComment) {
               await github.rest.issues.updateComment({
@@ -172,19 +174,26 @@ Download PNG/SVG from [workflow artifacts](${context.payload.pull_request.html_u
             
             const updateComment = comments.find(comment =>
               comment.user.type === 'Bot' &&
-              comment.body.includes('📐 Architecture diagrams')
+              comment.body.includes('Architecture diagrams updated')
             );
             
-            const commentBody = `📐 Architecture diagrams updated and committed to \`architecture/\` folder! ✨
-
-### Generated Files:
-- \`architecture/architecture-diagram.md\` - Mermaid diagram in markdown
-- \`architecture/architecture-diagram.mmd\` - Raw Mermaid syntax
-- \`architecture/architecture-diagram.png\` - PNG image
-- \`architecture/architecture-diagram.svg\` - SVG vector (embedded icons)
-- \`architecture/architecture-diagram.jpg\` - JPG image
-
-These changes will be automatically included in your PR.`;
+            const files = [
+              '- `architecture/architecture-diagram.md` - Mermaid diagram in markdown',
+              '- `architecture/architecture-diagram.mmd` - Raw Mermaid syntax',
+              '- `architecture/architecture-diagram.png` - PNG image',
+              '- `architecture/architecture-diagram.svg` - SVG vector (embedded icons)',
+              '- `architecture/architecture-diagram.jpg` - JPG image'
+            ];
+            
+            const parts = [
+              '📐 Architecture diagrams updated and committed to `architecture/` folder! ✨',
+              '',
+              '### Generated Files:',
+              files.join('\n'),
+              '',
+              'These changes will be automatically included in your PR.'
+            ];
+            const commentBody = parts.join('\n');
             
             if (updateComment) {
               await github.rest.issues.updateComment({
