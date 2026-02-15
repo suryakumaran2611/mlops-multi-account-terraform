@@ -67,6 +67,7 @@ jobs:
       out_png: diagrams/architecture-diagram-${{ matrix.target.name }}.png
       out_jpg: diagrams/architecture-diagram-${{ matrix.target.name }}.jpg
       out_svg: diagrams/architecture-diagram-${{ matrix.target.name }}.svg
+      artifact_name: auto-arch-diagram-${{ matrix.target.name }}-${{ github.run_attempt }}
       comment_on_pr: true
       create_diagram_pr: false
       tool_repo: suryakumaran2611/auto-arch-diagram
