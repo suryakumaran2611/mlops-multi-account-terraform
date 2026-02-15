@@ -36,7 +36,7 @@ jobs:
         base-infrastructure/terraform/**/*.tfvars
         base-infrastructure/terraform/**/*.hcl
       mode: static
-      direction: AUTO
+      direction: LR
       image_formats: png,jpg,svg
       out_dir: diagrams
       out_md: diagrams/architecture-diagram.md
@@ -49,3 +49,6 @@ jobs:
       force_full: ${{ github.event_name == 'workflow_dispatch' && inputs.force_full || false }}
       tool_repo: suryakumaran2611/auto-arch-diagram
       tool_ref: enhancement
+      edge_color: "#4B5563"
+      edge_penwidth: "1.3"
+      edge_arrowsize: "0.8"
