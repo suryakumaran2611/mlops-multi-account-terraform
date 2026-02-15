@@ -5,7 +5,7 @@
 Summary: Generated a dependency-oriented Terraform diagram from changed resources.
 
 ```mermaid
-flowchart AUTO
+flowchart LR
   subgraph all_AWS[AWS]
     tf_aws_cloudwatch_log_group_main["aws_cloudwatch_log_group.main"]
     tf_aws_eip_nat_eip["aws_eip.nat_eip"]
