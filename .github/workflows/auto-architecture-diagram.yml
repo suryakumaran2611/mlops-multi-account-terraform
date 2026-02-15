@@ -23,7 +23,7 @@ on:
         default: true
 
 permissions:
-  contents: read
+  contents: write
   pull-requests: write
 
 jobs:
@@ -44,4 +44,5 @@ jobs:
       out_jpg: diagrams/architecture-diagram.jpg
       out_svg: diagrams/architecture-diagram.svg
       comment_on_pr: true
+      create_diagram_pr: false
       force_full: ${{ github.event_name == 'workflow_dispatch' && inputs.force_full || false }}
