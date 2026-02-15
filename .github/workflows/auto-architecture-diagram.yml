@@ -28,7 +28,7 @@ permissions:
 
 jobs:
   generate-diagrams:
-    uses: suryakumaran2611/auto-arch-diagram/.github/workflows/reusable-auto-arch-diagram.yml@main
+    uses: suryakumaran2611/auto-arch-diagram/.github/workflows/reusable-auto-arch-diagram.yml@v1
     with:
       iac_globs: |
         base-infrastructure/terraform/**/*.tf
