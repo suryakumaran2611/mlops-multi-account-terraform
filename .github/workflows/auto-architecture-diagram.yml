@@ -61,13 +61,14 @@ jobs:
       render_layout: lanes
       render_bg: transparent
       image_formats: png,jpg,svg
-      out_dir: diagrams
-      out_md: diagrams/architecture-diagram-${{ matrix.target.name }}.md
-      out_mmd: diagrams/architecture-diagram-${{ matrix.target.name }}.mmd
-      out_png: diagrams/architecture-diagram-${{ matrix.target.name }}.png
-      out_jpg: diagrams/architecture-diagram-${{ matrix.target.name }}.jpg
-      out_svg: diagrams/architecture-diagram-${{ matrix.target.name }}.svg
+      out_dir: artifacts
+      out_md: artifacts/architecture-diagram-${{ matrix.target.name }}.md
+      out_mmd: artifacts/architecture-diagram-${{ matrix.target.name }}.mmd
+      out_png: artifacts/architecture-diagram-${{ matrix.target.name }}.png
+      out_jpg: artifacts/architecture-diagram-${{ matrix.target.name }}.jpg
+      out_svg: artifacts/architecture-diagram-${{ matrix.target.name }}.svg
       artifact_name: auto-arch-diagram-${{ matrix.target.name }}-${{ github.run_attempt }}
+      auto_commit_artifacts: true
       comment_on_pr: true
       create_diagram_pr: false
       tool_repo: suryakumaran2611/auto-arch-diagram
