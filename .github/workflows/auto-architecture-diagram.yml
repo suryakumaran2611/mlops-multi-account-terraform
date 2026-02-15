@@ -28,27 +28,50 @@ permissions:
 
 jobs:
   generate-diagrams:
+    strategy:
+      fail-fast: false
+      matrix:
+        target:
+          - name: dev
+            globs: |
+              base-infrastructure/terraform/dev/**/*.tf
+              base-infrastructure/terraform/dev/**/*.tfvars
+              base-infrastructure/terraform/dev/**/*.hcl
+              base-infrastructure/terraform/modules/**/*.tf
+          - name: preprod
+            globs: |
+              base-infrastructure/terraform/preprod/**/*.tf
+              base-infrastructure/terraform/preprod/**/*.tfvars
+              base-infrastructure/terraform/preprod/**/*.hcl
+              base-infrastructure/terraform/modules/**/*.tf
+          - name: prod
+            globs: |
+              base-infrastructure/terraform/prod/**/*.tf
+              base-infrastructure/terraform/prod/**/*.tfvars
+              base-infrastructure/terraform/prod/**/*.hcl
+              base-infrastructure/terraform/modules/**/*.tf
+          - name: shared
+            globs: |
+              base-infrastructure/terraform/modules/**/*.tf
     uses: suryakumaran2611/auto-arch-diagram/.github/workflows/reusable-auto-arch-diagram.yml@enhancement
     with:
-      iac_root: base-infrastructure/terraform
-      iac_globs: |
-        base-infrastructure/terraform/**/*.tf
-        base-infrastructure/terraform/**/*.tfvars
-        base-infrastructure/terraform/**/*.hcl
+      iac_globs: ${{ matrix.target.globs }}
       mode: static
-      direction: LR
+      direction: AUTO
+      render_layout: lanes
+      render_bg: transparent
       image_formats: png,jpg,svg
       out_dir: diagrams
-      out_md: diagrams/architecture-diagram.md
-      out_mmd: diagrams/architecture-diagram.mmd
-      out_png: diagrams/architecture-diagram.png
-      out_jpg: diagrams/architecture-diagram.jpg
-      out_svg: diagrams/architecture-diagram.svg
+      out_md: diagrams/architecture-diagram-${{ matrix.target.name }}.md
+      out_mmd: diagrams/architecture-diagram-${{ matrix.target.name }}.mmd
+      out_png: diagrams/architecture-diagram-${{ matrix.target.name }}.png
+      out_jpg: diagrams/architecture-diagram-${{ matrix.target.name }}.jpg
+      out_svg: diagrams/architecture-diagram-${{ matrix.target.name }}.svg
       comment_on_pr: true
       create_diagram_pr: false
-      force_full: ${{ github.event_name == 'workflow_dispatch' && inputs.force_full || false }}
       tool_repo: suryakumaran2611/auto-arch-diagram
       tool_ref: enhancement
+      force_full: ${{ github.event_name == 'workflow_dispatch' && inputs.force_full || false }}
       edge_color: "#4B5563"
       edge_penwidth: "1.3"
       edge_arrowsize: "0.8"
