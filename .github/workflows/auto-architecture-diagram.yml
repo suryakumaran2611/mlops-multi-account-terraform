@@ -19,7 +19,12 @@ on:
       force_full:
         description: "Force full architecture render (ignore change filtering)"
         required: false
-        default: "true"
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+  pull-requests: write
 
 jobs:
   generate-diagrams:
@@ -29,6 +34,7 @@ jobs:
         base-infrastructure/terraform/**/*.tf
         base-infrastructure/terraform/**/*.tfvars
         base-infrastructure/terraform/**/*.hcl
+      mode: static
       direction: AUTO
       image_formats: png,jpg,svg
       out_dir: diagrams
@@ -38,4 +44,4 @@ jobs:
       out_jpg: diagrams/architecture-diagram.jpg
       out_svg: diagrams/architecture-diagram.svg
       comment_on_pr: true
-      force_full: true
+      force_full: ${{ github.event_name == 'workflow_dispatch' && inputs.force_full || false }}
