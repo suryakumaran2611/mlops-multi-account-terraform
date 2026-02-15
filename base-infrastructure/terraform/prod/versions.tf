@@ -14,6 +14,10 @@ provider "aws" {
   default_tags {
     tags = {
       Environment = var.environment
+      Project     = "mlops"
+      ManagedBy   = "terraform"
+      Repository  = "mlops-multi-account-terraform"
+      Layer       = "base-infrastructure"
     }
 
   }

@@ -39,6 +39,7 @@ module "kms" {
 module "networking" {
   source = "../modules/networking"
   region = var.region
+  name_prefix = "${var.environment}-mlops"
 }
 
 # Dummy component to trigger auto-architecture-diagram workflow

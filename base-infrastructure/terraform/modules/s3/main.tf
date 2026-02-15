@@ -11,6 +11,10 @@ resource "aws_s3_bucket" "bucket" {
   #checkov:skip=CKV_AWS_52:v4 legacy
   bucket        = var.s3_bucket_name
   force_destroy = var.s3_bucket_force_destroy
+  tags = {
+    Name      = var.s3_bucket_name
+    Component = "storage"
+  }
 }
 
 resource "aws_s3_bucket_versioning" "bucket" {
