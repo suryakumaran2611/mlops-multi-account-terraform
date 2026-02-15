@@ -28,8 +28,9 @@ permissions:
 
 jobs:
   generate-diagrams:
-    uses: suryakumaran2611/auto-arch-diagram/.github/workflows/reusable-auto-arch-diagram.yml@v1
+    uses: suryakumaran2611/auto-arch-diagram/.github/workflows/reusable-auto-arch-diagram.yml@enhancement
     with:
+      iac_root: base-infrastructure/terraform
       iac_globs: |
         base-infrastructure/terraform/**/*.tf
         base-infrastructure/terraform/**/*.tfvars
@@ -46,3 +47,5 @@ jobs:
       comment_on_pr: true
       create_diagram_pr: false
       force_full: ${{ github.event_name == 'workflow_dispatch' && inputs.force_full || false }}
+      tool_repo: suryakumaran2611/auto-arch-diagram
+      tool_ref: enhancement
