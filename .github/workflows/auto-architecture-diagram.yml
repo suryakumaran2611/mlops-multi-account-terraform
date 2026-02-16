@@ -81,6 +81,7 @@ jobs:
       confluence_page_id: ${{ matrix.target.name == 'dev' && '622593' || '' }}
       confluence_replace: true
       confluence_unique_filename: true
+      confluence_image_marker: ${{ matrix.target.name == 'dev' && '<!-- auto-arch-diagram:dev -->' || '' }}
     secrets:
       CONFLUENCE_URL: ${{ secrets.CONFLUENCE_URL }}
       CONFLUENCE_USER: ${{ secrets.CONFLUENCE_USER }}
