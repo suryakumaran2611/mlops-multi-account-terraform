@@ -77,3 +77,11 @@ jobs:
       edge_color: "#4B5563"
       edge_penwidth: "1.3"
       edge_arrowsize: "0.8"
+      publish_confluence: ${{ matrix.target.name == 'dev' }}
+      confluence_page_id: ${{ matrix.target.name == 'dev' && '622593' || '' }}
+      confluence_replace: true
+      confluence_unique_filename: true
+    secrets:
+      CONFLUENCE_URL: ${{ secrets.CONFLUENCE_URL }}
+      CONFLUENCE_USER: ${{ secrets.CONFLUENCE_USER }}
+      CONFLUENCE_TOKEN: ${{ secrets.CONFLUENCE_TOKEN }}
