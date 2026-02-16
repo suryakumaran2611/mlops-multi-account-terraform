@@ -10,4 +10,4 @@ Changed IaC files:
 - (none)
 
 Rendered PNG/JPEG/SVG are uploaded as workflow artifacts.
-Run: https://github.com/suryakumaran2611/mlops-multi-account-terraform/actions/runs/22064270112
+Run: https://github.com/suryakumaran2611/mlops-multi-account-terraform/actions/runs/22064125536
