@@ -72,7 +72,7 @@ jobs:
       comment_on_pr: true
       create_diagram_pr: false
       tool_repo: suryakumaran2611/auto-arch-diagram
-      tool_ref: enhancement
+      tool_ref: main
       force_full: ${{ github.event_name == 'workflow_dispatch' && inputs.force_full || false }}
       edge_color: "#4B5563"
       edge_penwidth: "1.3"
