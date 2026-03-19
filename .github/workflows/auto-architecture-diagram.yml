@@ -53,7 +53,7 @@ jobs:
           - name: shared
             globs: |
               base-infrastructure/terraform/modules/**/*.tf
-    uses: suryakumaran2611/auto-arch-diagram/.github/workflows/reusable-auto-arch-diagram.yml@enhancement
+    uses: suryakumaran2611/auto-arch-diagram/.github/workflows/reusable-auto-arch-diagram.yml@main
     with:
       iac_globs: ${{ matrix.target.globs }}
       mode: static
