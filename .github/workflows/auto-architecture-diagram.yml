@@ -1,0 +1,88 @@
+name: Auto Architecture Diagram
+
+on:
+  push:
+    paths:
+      - 'base-infrastructure/terraform/**/*.tf'
+      - 'base-infrastructure/terraform/**/*.tfvars'
+      - 'base-infrastructure/terraform/**/*.hcl'
+      - '.github/workflows/auto-architecture-diagram.yml'
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'base-infrastructure/terraform/**/*.tf'
+      - 'base-infrastructure/terraform/**/*.tfvars'
+      - 'base-infrastructure/terraform/**/*.hcl'
+      - '.github/workflows/auto-architecture-diagram.yml'
+  workflow_dispatch:
+    inputs:
+      force_full:
+        description: "Force full architecture render (ignore change filtering)"
+        required: false
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  generate-diagrams:
+    strategy:
+      fail-fast: false
+      matrix:
+        target:
+          - name: dev
+            globs: |
+              base-infrastructure/terraform/dev/**/*.tf
+              base-infrastructure/terraform/dev/**/*.tfvars
+              base-infrastructure/terraform/dev/**/*.hcl
+              base-infrastructure/terraform/modules/**/*.tf
+          - name: preprod
+            globs: |
+              base-infrastructure/terraform/preprod/**/*.tf
+              base-infrastructure/terraform/preprod/**/*.tfvars
+              base-infrastructure/terraform/preprod/**/*.hcl
+              base-infrastructure/terraform/modules/**/*.tf
+          - name: prod
+            globs: |
+              base-infrastructure/terraform/prod/**/*.tf
+              base-infrastructure/terraform/prod/**/*.tfvars
+              base-infrastructure/terraform/prod/**/*.hcl
+              base-infrastructure/terraform/modules/**/*.tf
+          - name: shared
+            globs: |
+              base-infrastructure/terraform/modules/**/*.tf
+    uses: suryakumaran2611/auto-arch-diagram/.github/workflows/reusable-auto-arch-diagram.yml@main
+    with:
+      iac_globs: ${{ matrix.target.globs }}
+      mode: static
+      direction: AUTO
+      render_layout: lanes
+      render_bg: transparent
+      image_formats: png,jpg,svg
+      out_dir: artifacts
+      out_md: artifacts/architecture-diagram-${{ matrix.target.name }}.md
+      out_mmd: artifacts/architecture-diagram-${{ matrix.target.name }}.mmd
+      out_png: ${{ matrix.target.name == 'dev' && 'artifacts/architecture-diagram.png' || format('artifacts/architecture-diagram-{0}.png', matrix.target.name) }}
+      out_jpg: artifacts/architecture-diagram-${{ matrix.target.name }}.jpg
+      out_svg: artifacts/architecture-diagram-${{ matrix.target.name }}.svg
+      artifact_name: auto-arch-diagram-${{ matrix.target.name }}-${{ github.run_attempt }}
+      auto_commit_artifacts: true
+      comment_on_pr: true
+      create_diagram_pr: false
+      tool_repo: suryakumaran2611/auto-arch-diagram
+      tool_ref: main
+      force_full: ${{ github.event_name == 'workflow_dispatch' && inputs.force_full || false }}
+      edge_color: "#4B5563"
+      edge_penwidth: "1.3"
+      edge_arrowsize: "0.8"
+      publish_confluence: ${{ matrix.target.name == 'dev' }}
+      confluence_page_id: ${{ matrix.target.name == 'dev' && '622593' || '' }}
+      confluence_replace: true
+      confluence_unique_filename: true
+      confluence_image_marker: ${{ matrix.target.name == 'dev' && '<!-- auto-arch-diagram:dev -->' || '' }}
+    secrets:
+      CONFLUENCE_URL: ${{ secrets.CONFLUENCE_URL }}
+      CONFLUENCE_USER: ${{ secrets.CONFLUENCE_USER }}
+      CONFLUENCE_TOKEN: ${{ secrets.CONFLUENCE_TOKEN }}

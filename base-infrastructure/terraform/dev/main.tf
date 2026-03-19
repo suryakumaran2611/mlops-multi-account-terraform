@@ -1,5 +1,6 @@
 # S3
 # Creates SageMaker bucket with versioning enabled
+# Test commit for workflow trigger - auto-architecture-diagram
 module "sagemaker_bucket" {
   source                  = "../modules/s3"
   s3_bucket_name          = "sagemaker-${local.aws_region}-${local.account_id}"
@@ -38,6 +39,14 @@ module "kms" {
 module "networking" {
   source = "../modules/networking"
   region = var.region
+  name_prefix = "${var.environment}-mlops"
+}
+
+# Dummy component to trigger auto-architecture-diagram workflow
+resource "null_resource" "diagram_trigger" {
+  triggers = {
+    tag = "auto-arch-diagram-dev"
+  }
 }
 
 # SageMaker roles

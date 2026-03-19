@@ -2,6 +2,10 @@ resource "aws_kms_key" "key" {
   description         = var.description
   enable_key_rotation = true
   policy              = data.aws_iam_policy_document.key_policy.json
+  tags = {
+    Name      = "mlops-kms-key"
+    Component = "security"
+  }
 }
 
 data "aws_iam_policy_document" "key_policy" {
