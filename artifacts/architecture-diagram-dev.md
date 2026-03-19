@@ -8,72 +8,9 @@ Summary: Generated a dependency-oriented Terraform diagram from changed resource
 flowchart LR
 subgraph env_dev[Dev]
   subgraph dev_AWS[AWS]
-    subgraph vpc_aws_vpc_main[VPC
-main]
-      tf_aws_vpc_main["aws_vpc.main"]
-      subgraph subnet_aws_subnet_private[Subnet
-private (Private)]
-        tf_aws_subnet_private["aws_subnet.private"]
-        tf_aws_route_table_association_private["aws_route_table_association.private"]
-      end
-      subgraph subnet_aws_subnet_private_2[Subnet
-private 2 (Private)]
-        tf_aws_subnet_private_2["aws_subnet.private_2"]
-        tf_aws_route_table_association_private_2["aws_route_table_association.private_2"]
-      end
-      subgraph subnet_aws_subnet_public[Subnet
-public (Public)]
-        tf_aws_subnet_public["aws_subnet.public"]
-        tf_aws_nat_gateway_main["aws_nat_gateway.main"]
-        tf_aws_route_table_association_public["aws_route_table_association.public"]
-      end
-      subgraph subnet_aws_subnet_public_2[Subnet
-public 2 (Public)]
-        tf_aws_subnet_public_2["aws_subnet.public_2"]
-        tf_aws_route_table_association_public_2["aws_route_table_association.public_2"]
-      end
-      tf_aws_flow_log_main["aws_flow_log.main"]
-      tf_aws_internet_gateway_main["aws_internet_gateway.main"]
-      tf_aws_route_table_private["aws_route_table.private"]
-      tf_aws_route_table_public["aws_route_table.public"]
-      tf_aws_security_group_main["aws_security_group.main"]
-    end
-    subgraph vpc_aws_vpc_module_networking_main[VPC
-module…]
-      tf_aws_vpc_module_networking_main["aws_vpc.module_networking__main"]
-      subgraph subnet_aws_subnet_module_networking_private[Subnet
-module… (Private)]
-        tf_aws_subnet_module_networking_private["aws_subnet.module_networking__private"]
-      end
-      subgraph subnet_aws_subnet_module_networking_private_2[Subnet
-module… (Private)]
-        tf_aws_subnet_module_networking_private_2["aws_subnet.module_networking__private_2"]
-      end
-      subgraph subnet_aws_subnet_module_networking_public[Subnet
-module… (Public)]
-        tf_aws_subnet_module_networking_public["aws_subnet.module_networking__public"]
-      end
-      subgraph subnet_aws_subnet_module_networking_public_2[Subnet
-module… (Public)]
-        tf_aws_subnet_module_networking_public_2["aws_subnet.module_networking__public_2"]
-      end
-      tf_aws_flow_log_module_networking_main["aws_flow_log.module_networking__main"]
-      tf_aws_internet_gateway_module_networking_main["aws_internet_gateway.module_networking__main"]
-      tf_aws_route_table_module_networking_private["aws_route_table.module_networking__private"]
-      tf_aws_route_table_module_networking_public["aws_route_table.module_networking__public"]
-      tf_aws_security_group_module_networking_main["aws_security_group.module_networking__main"]
-      tf_aws_ssm_parameter_module_networking_private_subnet_id["aws_ssm_parameter.module_networking__private_subnet_id"]
-      tf_aws_vpc_endpoint_module_networking_events["aws_vpc_endpoint.module_networking__events"]
-      tf_aws_vpc_endpoint_module_networking_logs["aws_vpc_endpoint.module_networking__logs"]
-      tf_aws_vpc_endpoint_module_networking_s3["aws_vpc_endpoint.module_networking__s3"]
-      tf_aws_vpc_endpoint_module_networking_sagemaker_api["aws_vpc_endpoint.module_networking__sagemaker_api"]
-      tf_aws_vpc_endpoint_module_networking_sagemaker_runtime["aws_vpc_endpoint.module_networking__sagemaker_runtime"]
-      tf_aws_vpc_endpoint_module_networking_sagemaker_studio["aws_vpc_endpoint.module_networking__sagemaker_studio"]
-      tf_aws_vpc_endpoint_module_networking_service_catalog["aws_vpc_endpoint.module_networking__service_catalog"]
-      tf_aws_vpc_endpoint_module_networking_sts["aws_vpc_endpoint.module_networking__sts"]
-    end
     tf_aws_cloudwatch_log_group_module_networking_main["aws_cloudwatch_log_group.module_networking__main"]
     tf_aws_eip_module_networking_nat_eip["aws_eip.module_networking__nat_eip"]
+    tf_aws_flow_log_module_networking_main["aws_flow_log.module_networking__main"]
     tf_aws_iam_policy_module_networking_vpc_flow_logs_policy["aws_iam_policy.module_networking__vpc_flow_logs_policy"]
     tf_aws_iam_policy_module_sagemaker_roles_kms_policy["aws_iam_policy.module_sagemaker_roles__kms_policy"]
     tf_aws_iam_policy_module_sagemaker_roles_s3_policy["aws_iam_policy.module_sagemaker_roles__s3_policy"]
@@ -84,10 +21,13 @@ module… (Public)]
     tf_aws_iam_role_module_sagemaker_roles_lead_data_scientist_role["aws_iam_role.module_sagemaker_roles__lead_data_scientist_role"]
     tf_aws_iam_role_module_sagemaker_roles_sagemaker_studio_role["aws_iam_role.module_sagemaker_roles__sagemaker_studio_role"]
     tf_aws_iam_role_policy_attachment_module_networking_vpc_flow_logs_policy_attachment["aws_iam_role_policy_attachment.module_networking__vpc_flow_logs_policy_attachment"]
+    tf_aws_internet_gateway_module_networking_main["aws_internet_gateway.module_networking__main"]
     tf_aws_kms_key_module_kms_key["aws_kms_key.module_kms__key"]
     tf_aws_nat_gateway_module_networking_main["aws_nat_gateway.module_networking__main"]
     tf_aws_route_module_networking_private_nat_gateway["aws_route.module_networking__private_nat_gateway"]
     tf_aws_route_module_networking_public_internet_gateway["aws_route.module_networking__public_internet_gateway"]
+    tf_aws_route_table_module_networking_private["aws_route_table.module_networking__private"]
+    tf_aws_route_table_module_networking_public["aws_route_table.module_networking__public"]
     tf_aws_route_table_association_module_networking_private["aws_route_table_association.module_networking__private"]
     tf_aws_route_table_association_module_networking_private_2["aws_route_table_association.module_networking__private_2"]
     tf_aws_route_table_association_module_networking_public["aws_route_table_association.module_networking__public"]
@@ -115,6 +55,7 @@ module… (Public)]
     tf_aws_sagemaker_servicecatalog_portfolio_status_module_sagemaker_enable_sagemaker_servicecatalog_portfolio["aws_sagemaker_servicecatalog_portfolio_status.module_sagemaker__enable_sagemaker_servicecatalog_portfolio"]
     tf_aws_sagemaker_user_profile_module_sagemaker_data_scientist_sagemaker_user_profiles["aws_sagemaker_user_profile.module_sagemaker__data_scientist_sagemaker_user_profiles"]
     tf_aws_sagemaker_user_profile_module_sagemaker_lead_data_scientist_sagemaker_user_profiles["aws_sagemaker_user_profile.module_sagemaker__lead_data_scientist_sagemaker_user_profiles"]
+    tf_aws_security_group_module_networking_main["aws_security_group.module_networking__main"]
     tf_aws_servicecatalog_constraint_module_service_catalog_constraint["aws_servicecatalog_constraint.module_service_catalog__constraint"]
     tf_aws_servicecatalog_portfolio_module_service_catalog_sagemaker_portfolio["aws_servicecatalog_portfolio.module_service_catalog__sagemaker_portfolio"]
     tf_aws_servicecatalog_principal_portfolio_association_module_service_catalog_sagemaker["aws_servicecatalog_principal_portfolio_association.module_service_catalog__sagemaker"]
@@ -122,83 +63,42 @@ module… (Public)]
     tf_aws_servicecatalog_product_portfolio_association_module_service_catalog_sagemaker_product_to_portfolio["aws_servicecatalog_product_portfolio_association.module_service_catalog__sagemaker_product_to_portfolio"]
     tf_aws_servicecatalog_provisioning_artifact_module_service_catalog_artifact["aws_servicecatalog_provisioning_artifact.module_service_catalog__artifact"]
     tf_aws_ssm_parameter_module_kms_kms_key["aws_ssm_parameter.module_kms__kms_key"]
+    tf_aws_ssm_parameter_module_networking_private_subnet_id["aws_ssm_parameter.module_networking__private_subnet_id"]
     tf_aws_ssm_parameter_module_networking_sg_id["aws_ssm_parameter.module_networking__sg_id"]
     tf_aws_ssm_parameter_module_sagemaker_roles_ssm_sg_ds_role["aws_ssm_parameter.module_sagemaker_roles__ssm_sg_ds_role"]
     tf_aws_ssm_parameter_module_sagemaker_roles_ssm_sg_execution_role["aws_ssm_parameter.module_sagemaker_roles__ssm_sg_execution_role"]
     tf_aws_ssm_parameter_module_sagemaker_roles_ssm_sg_lead_role["aws_ssm_parameter.module_sagemaker_roles__ssm_sg_lead_role"]
+    tf_aws_subnet_module_networking_private["aws_subnet.module_networking__private"]
+    tf_aws_subnet_module_networking_private_2["aws_subnet.module_networking__private_2"]
+    tf_aws_subnet_module_networking_public["aws_subnet.module_networking__public"]
+    tf_aws_subnet_module_networking_public_2["aws_subnet.module_networking__public_2"]
+    tf_aws_vpc_module_networking_main["aws_vpc.module_networking__main"]
+    tf_aws_vpc_endpoint_module_networking_events["aws_vpc_endpoint.module_networking__events"]
+    tf_aws_vpc_endpoint_module_networking_logs["aws_vpc_endpoint.module_networking__logs"]
+    tf_aws_vpc_endpoint_module_networking_s3["aws_vpc_endpoint.module_networking__s3"]
+    tf_aws_vpc_endpoint_module_networking_sagemaker_api["aws_vpc_endpoint.module_networking__sagemaker_api"]
+    tf_aws_vpc_endpoint_module_networking_sagemaker_runtime["aws_vpc_endpoint.module_networking__sagemaker_runtime"]
+    tf_aws_vpc_endpoint_module_networking_sagemaker_studio["aws_vpc_endpoint.module_networking__sagemaker_studio"]
+    tf_aws_vpc_endpoint_module_networking_service_catalog["aws_vpc_endpoint.module_networking__service_catalog"]
+    tf_aws_vpc_endpoint_module_networking_sts["aws_vpc_endpoint.module_networking__sts"]
   end
 end
 subgraph env_shared[Shared]
   subgraph shared_AWS[AWS]
-    subgraph vpc_aws_vpc_main[VPC
-main]
-      tf_aws_vpc_main["aws_vpc.main"]
-      subgraph subnet_aws_subnet_private[Subnet
-private (Private)]
-        tf_aws_subnet_private["aws_subnet.private"]
-        tf_aws_route_table_association_private["aws_route_table_association.private"]
-      end
-      subgraph subnet_aws_subnet_private_2[Subnet
-private 2 (Private)]
-        tf_aws_subnet_private_2["aws_subnet.private_2"]
-        tf_aws_route_table_association_private_2["aws_route_table_association.private_2"]
-      end
-      subgraph subnet_aws_subnet_public[Subnet
-public (Public)]
-        tf_aws_subnet_public["aws_subnet.public"]
-        tf_aws_nat_gateway_main["aws_nat_gateway.main"]
-        tf_aws_route_table_association_public["aws_route_table_association.public"]
-      end
-      subgraph subnet_aws_subnet_public_2[Subnet
-public 2 (Public)]
-        tf_aws_subnet_public_2["aws_subnet.public_2"]
-        tf_aws_route_table_association_public_2["aws_route_table_association.public_2"]
-      end
-      tf_aws_flow_log_main["aws_flow_log.main"]
-      tf_aws_internet_gateway_main["aws_internet_gateway.main"]
-      tf_aws_route_table_private["aws_route_table.private"]
-      tf_aws_route_table_public["aws_route_table.public"]
-      tf_aws_security_group_main["aws_security_group.main"]
-    end
-    subgraph vpc_aws_vpc_module_networking_main[VPC
-module…]
-      tf_aws_vpc_module_networking_main["aws_vpc.module_networking__main"]
-      subgraph subnet_aws_subnet_module_networking_private[Subnet
-module… (Private)]
-        tf_aws_subnet_module_networking_private["aws_subnet.module_networking__private"]
-      end
-      subgraph subnet_aws_subnet_module_networking_private_2[Subnet
-module… (Private)]
-        tf_aws_subnet_module_networking_private_2["aws_subnet.module_networking__private_2"]
-      end
-      subgraph subnet_aws_subnet_module_networking_public[Subnet
-module… (Public)]
-        tf_aws_subnet_module_networking_public["aws_subnet.module_networking__public"]
-      end
-      subgraph subnet_aws_subnet_module_networking_public_2[Subnet
-module… (Public)]
-        tf_aws_subnet_module_networking_public_2["aws_subnet.module_networking__public_2"]
-      end
-      tf_aws_flow_log_module_networking_main["aws_flow_log.module_networking__main"]
-      tf_aws_internet_gateway_module_networking_main["aws_internet_gateway.module_networking__main"]
-      tf_aws_route_table_module_networking_private["aws_route_table.module_networking__private"]
-      tf_aws_route_table_module_networking_public["aws_route_table.module_networking__public"]
-      tf_aws_security_group_module_networking_main["aws_security_group.module_networking__main"]
-      tf_aws_ssm_parameter_module_networking_private_subnet_id["aws_ssm_parameter.module_networking__private_subnet_id"]
-      tf_aws_vpc_endpoint_module_networking_events["aws_vpc_endpoint.module_networking__events"]
-      tf_aws_vpc_endpoint_module_networking_logs["aws_vpc_endpoint.module_networking__logs"]
-      tf_aws_vpc_endpoint_module_networking_s3["aws_vpc_endpoint.module_networking__s3"]
-      tf_aws_vpc_endpoint_module_networking_sagemaker_api["aws_vpc_endpoint.module_networking__sagemaker_api"]
-      tf_aws_vpc_endpoint_module_networking_sagemaker_runtime["aws_vpc_endpoint.module_networking__sagemaker_runtime"]
-      tf_aws_vpc_endpoint_module_networking_sagemaker_studio["aws_vpc_endpoint.module_networking__sagemaker_studio"]
-      tf_aws_vpc_endpoint_module_networking_service_catalog["aws_vpc_endpoint.module_networking__service_catalog"]
-      tf_aws_vpc_endpoint_module_networking_sts["aws_vpc_endpoint.module_networking__sts"]
-    end
     tf_aws_cloudwatch_log_group_main["aws_cloudwatch_log_group.main"]
     tf_aws_eip_nat_eip["aws_eip.nat_eip"]
+    tf_aws_flow_log_main["aws_flow_log.main"]
+    tf_aws_internet_gateway_main["aws_internet_gateway.main"]
     tf_aws_kms_key_key["aws_kms_key.key"]
+    tf_aws_nat_gateway_main["aws_nat_gateway.main"]
     tf_aws_route_private_nat_gateway["aws_route.private_nat_gateway"]
     tf_aws_route_public_internet_gateway["aws_route.public_internet_gateway"]
+    tf_aws_route_table_private["aws_route_table.private"]
+    tf_aws_route_table_public["aws_route_table.public"]
+    tf_aws_route_table_association_private["aws_route_table_association.private"]
+    tf_aws_route_table_association_private_2["aws_route_table_association.private_2"]
+    tf_aws_route_table_association_public["aws_route_table_association.public"]
+    tf_aws_route_table_association_public_2["aws_route_table_association.public_2"]
     tf_aws_s3_bucket_bucket["aws_s3_bucket.bucket"]
     tf_aws_s3_bucket_lifecycle_configuration_artifacts_lifecycle["aws_s3_bucket_lifecycle_configuration.artifacts_lifecycle"]
     tf_aws_s3_bucket_policy_bucket["aws_s3_bucket_policy.bucket"]
@@ -209,6 +109,12 @@ module… (Public)]
     tf_aws_sagemaker_servicecatalog_portfolio_status_enable_sagemaker_servicecatalog_portfolio["aws_sagemaker_servicecatalog_portfolio_status.enable_sagemaker_servicecatalog_portfolio"]
     tf_aws_sagemaker_user_profile_data_scientist_sagemaker_user_profiles["aws_sagemaker_user_profile.data_scientist_sagemaker_user_profiles"]
     tf_aws_sagemaker_user_profile_lead_data_scientist_sagemaker_user_profiles["aws_sagemaker_user_profile.lead_data_scientist_sagemaker_user_profiles"]
+    tf_aws_security_group_main["aws_security_group.main"]
+    tf_aws_subnet_private["aws_subnet.private"]
+    tf_aws_subnet_private_2["aws_subnet.private_2"]
+    tf_aws_subnet_public["aws_subnet.public"]
+    tf_aws_subnet_public_2["aws_subnet.public_2"]
+    tf_aws_vpc_main["aws_vpc.main"]
   end
 end
 tf_aws_cloudwatch_log_group_main --> tf_aws_flow_log_main
@@ -347,4 +253,4 @@ Assumptions: Connections represent inferred references (including depends_on and
 Rendered diagram: available as workflow artifact
 
 Rendered PNG/JPEG/SVG are uploaded as workflow artifacts.
-Run: https://github.com/suryakumaran2611/mlops-multi-account-terraform/actions/runs/23296320862
+Run: https://github.com/suryakumaran2611/mlops-multi-account-terraform/actions/runs/22038002647
